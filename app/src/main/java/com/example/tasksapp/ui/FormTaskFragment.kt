@@ -6,10 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.tasksapp.R
+import com.example.tasksapp.data.db.AppDataBase
+import com.example.tasksapp.data.db.repository.TaskRepository
 import com.example.tasksapp.data.model.Status
 import com.example.tasksapp.databinding.FragmentFormTaskBinding
 import com.example.tasksapp.util.initToolBar
@@ -27,7 +31,21 @@ class FormTaskFragment : BaseFragment() {
     private lateinit var task: Task
 
     private val args: FormTaskFragmentArgs by navArgs()
-    private val viewModel: TaskViewModel by activityViewModels()
+    private val viewModel: TaskViewModel by viewModels {
+        object : ViewModelProvider.Factory{
+            override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                if (modelClass.isAssignableFrom(TaskViewModel::class.java)) {
+
+                    val dataBase = AppDataBase.getDatabase(requireContext())
+                    val repository = TaskRepository(dataBase.taskDao())
+
+                    @Suppress("UNCHECKED_CAST")
+                    return TaskViewModel(repository) as T
+                }
+                throw IllegalArgumentException("Unknown ViewModel class")
+            }
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
