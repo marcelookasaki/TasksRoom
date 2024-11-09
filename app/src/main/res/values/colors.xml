@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="color_default">#03B6FC</color>
+    <color name="transparent">#00000000</color>
+    <color name="btn_color">#0526DD</color>
+    <color name="btn_delete">#FF4C3B</color>
+    <color name="btn_details">#04D5C1</color>
+    <color name="status_todo">#FF841A</color>
+    <color name="status_done">#024E47</color>
+</resources>
